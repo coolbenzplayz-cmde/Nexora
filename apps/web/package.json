@@ -29,7 +29,6 @@
     "zustand": "latest"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4.3.0",
     "@types/react": "latest",
     "@types/react-dom": "latest",
     "@typescript-eslint/eslint-plugin": "latest",
@@ -37,7 +36,7 @@
     "autoprefixer": "latest",
     "eslint": "latest",
     "postcss": "latest",
-    "tailwindcss": "latest",
+    "tailwindcss": "^3.4.0",
     "typescript": "latest"
   }
 }
