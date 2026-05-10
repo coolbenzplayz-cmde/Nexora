@@ -1,6 +1,18 @@
 version: '3.8'
 
 services:
+  # Nginx Reverse Proxy (Main Entry Point)
+  nginx-proxy:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx-proxy.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - web-app
+      - admin-panel
+      - api-gateway
+
   # Web App
   web-app:
     build: ./apps/web
@@ -8,7 +20,7 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      - VITE_API_URL=http://localhost:8080
+      - VITE_API_URL=/api
     depends_on:
       - api-gateway
 
@@ -19,7 +31,7 @@ services:
       - "5174:5174"
     environment:
       - NODE_ENV=production
-      - VITE_API_URL=http://localhost:8080
+      - VITE_API_URL=/api
     depends_on:
       - api-gateway
 
