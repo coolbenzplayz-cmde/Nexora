@@ -1,0 +1,56 @@
+name: Monitoring & Observability
+
+on:
+  push:
+    branches: [ main ]
+  schedule:
+    - cron: '0 * * * *'  # Every hour
+
+jobs:
+  health-check:
+    name: Health Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check API Gateway
+        run: |
+          curl -f https://api.nexora.com/health || exit 1
+      
+      - name: Check Auth Service
+        run: |
+          curl -f https://auth.nexora.com/health || exit 1
+      
+      - name: Check Feed Service
+        run: |
+          curl -f https://feed.nexora.com/health || exit 1
+
+  metrics-collection:
+    name: Collect Metrics
+    runs-on: ubuntu-latest
+    steps:
+      - name: Query Prometheus
+        run: |
+          curl -G 'http://prometheus.nexora.com:9090/api/v1/query' \
+            --data-urlencode 'query=up{job="nexora"}' \
+            -H 'Accept: application/json'
+      
+      - name: Check error rates
+        run: |
+          curl -G 'http://prometheus.nexora.com:9090/api/v1/query' \
+            --data-urlencode 'query=rate(http_requests_total{status=~"5.."}[5m])' \
+            -H 'Accept: application/json'
+
+  alert-check:
+    name: Check Alerts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check active alerts
+        run: |
+          curl -f http://alertmanager.nexora.com:9093/api/v2/alerts || exit 1
+      
+      - name: Notify on critical alerts
+        if: failure()
+        uses: 8398a7/action-slack@v3
+        with:
+          status: 'failure'
+          text: 'Critical alerts detected in production'
+          webhook_url: ${{ secrets.SLACK_WEBHOOK }}

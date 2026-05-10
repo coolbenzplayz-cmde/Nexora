@@ -1,0 +1,32 @@
+{
+  "name": "@nexora/sdk",
+  "version": "1.0.0",
+  "description": "Nexora Platform SDK for third-party integrations",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "jest",
+    "lint": "eslint src --ext .ts"
+  },
+  "keywords": [
+    "nexora",
+    "sdk",
+    "api",
+    "social",
+    "streaming"
+  ],
+  "author": "Nexora",
+  "license": "MIT",
+  "dependencies": {
+    "axios": "^1.6.2",
+    "socket.io-client": "^4.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.10.4",
+    "typescript": "^5.3.3",
+    "jest": "^29.7.0",
+    "@types/jest": "^29.5.11",
+    "ts-jest": "^29.1.1"
+  }
+}

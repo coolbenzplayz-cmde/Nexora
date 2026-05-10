@@ -1,0 +1,43 @@
+{
+  "name": "nexora-monorepo",
+  "version": "1.0.0",
+  "description": "Nexora - Complete Enterprise Monorepo for Super App Ecosystem",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "services/*",
+    "sdk/*",
+    "ai/*",
+    "admin/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "test": "turbo run test",
+    "lint": "turbo run lint",
+    "clean": "turbo run clean && rm -rf node_modules",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,md}\"",
+    "typecheck": "turbo run typecheck",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down",
+    "k8s:deploy": "kubectl apply -f infrastructure/kubernetes/",
+    "k8s:delete": "kubectl delete -f infrastructure/kubernetes/",
+    "migration:up": "npm run migration:up --workspaces",
+    "migration:down": "npm run migration:down --workspaces"
+  },
+  "devDependencies": {
+    "@types/node": "latest",
+    "prettier": "latest",
+    "turbo": "latest",
+    "typescript": "latest",
+    "eslint": "latest",
+    "@typescript-eslint/eslint-plugin": "latest",
+    "@typescript-eslint/parser": "latest"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "packageManager": "npm@9.0.0"
+}
